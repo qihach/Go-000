@@ -2,10 +2,10 @@
 
 ## Week02 作业题目：
 
-我们在数据库操作的时候，比如 dao 层中当遇到一个 sql.ErrNoRows 的时候，是否应该 Wrap 这个 error，抛给上层。为什么，应该怎么做请写出代码？
+问：我们在数据库操作的时候，比如 dao 层中当遇到一个 sql.ErrNoRows 的时候，是否应该 Wrap 这个 error，抛给上层。为什么，应该怎么做请写出代码？
 
-假设我们有一个API接口 `/blogs?user_id=123` 可以根据所提供的userID获取相关的博客文章。我们的当API request到达API server的时候，
-分别经过这三层: 
+答：假设我们有一个API接口 `/blogs?user_id=123` 可以根据所提供的userID获取相关的博客文章。当API request到达API server的时候，分别经过这三层: 
+
 1. API service handler 负责接受request，调用storage layer来读取数据库，得到的结果写回response
 2. storage layer， 负责拆封数据库请求调用DAO层，拿到DAO层的数据之后负责组装业务数据。
 3. DAO layer， 负责数据库读写。
@@ -25,11 +25,17 @@ service handler 调用storage layer 返回错误之后，要打印日志
 		http.Error(w, "blogs not found", http.StatusNotFound)
 ```
 
-## 允许示例代码
+## 运行示例代码
 ```go
 make run
 ```
 会在 localhost:8090 启动http server
+
+```go
+ ~/github/Go-000/Week02 $ make run
+go run main.go
+2020/12/02 00:59:29 try http://localhost:8090/blogs?user_id=123 and check the log
+```
 
 在浏览器中输入
 ``` go
